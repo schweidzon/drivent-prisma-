@@ -31,6 +31,15 @@ async function getTicketByEnrollmentId(enrollmentId: Enrollment) {
     return prisma.ticket.findFirst({
         where: {
             enrollmentId: enrollmentId.id
+        },
+        select: {
+            id: true,
+            status: true,
+            ticketTypeId: true,
+            enrollmentId: true,
+            TicketType: true,
+            createdAt: true,
+            updatedAt: true
         }
     })
 

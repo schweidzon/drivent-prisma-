@@ -35,7 +35,6 @@ export async function createUserTicket(req: AuthenticatedRequest, res: Response)
 
     try {
      
-
         const createdTicket = await ticketsService.createUserTicket( ticketTypeId, req.userId)
 
         return res.status(201).send(createdTicket)
@@ -45,6 +44,9 @@ export async function createUserTicket(req: AuthenticatedRequest, res: Response)
         console.log(error)
         if(error.name === 'RequestError') {
             return res.status(400).send(error)
+        }
+        if(error.name === 'NotFoundError') {
+            return res.sendStatus(404)
         }
         return res.status(httpStatus.CONFLICT).send(error);
     }
