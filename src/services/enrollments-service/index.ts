@@ -5,6 +5,7 @@ import addressRepository, { CreateAddressParams } from '@/repositories/address-r
 import enrollmentRepository, { CreateEnrollmentParams } from '@/repositories/enrollment-repository';
 import { exclude } from '@/utils/prisma-utils';
 import { AddressEnrollment } from '@/protocols';
+import ticketsRepository from '@/repositories/tickets-repository';
 
 async function getAddressFromCEP(cep: string): Promise<AddressEnrollment> {
   const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
@@ -59,8 +60,12 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
   } catch {
     throw invalidDataError(['invalid CEP']);
   }
-
+  
+  console.log(enrollment)
+  
   const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'));
+
+  console.log(newEnrollment)
 
   await addressRepository.upsert(newEnrollment.id, address, address);
 }
@@ -76,10 +81,18 @@ export type CreateOrUpdateEnrollmentWithAddress = CreateEnrollmentParams & {
   address: CreateAddressParams;
 };
 
+async function getEnrollmentById(userId: number) {
+  const enrollment = await enrollmentRepository.getEnrollmentById(userId)
+  if(!enrollment) throw notFoundError()
+  return enrollment
+
+}
+
 const enrollmentsService = {
   getOneWithAddressByUserId,
   createOrUpdateEnrollmentWithAddress,
   getAddressFromCEP,
+  getEnrollmentById
 };
 
 export default enrollmentsService;

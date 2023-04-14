@@ -4,6 +4,7 @@ import userService from '@/services/users-service';
 
 export async function usersPost(req: Request, res: Response) {
   const { email, password } = req.body;
+ 
 
   try {
     const user = await userService.createUser({ email, password });

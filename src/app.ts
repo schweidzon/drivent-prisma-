@@ -23,6 +23,7 @@ app
   .use('/tickets', ticketRoutes)
   .use(handleApplicationErrors);
 
+
 export function init(): Promise<Express> {
   connectDb();
   return Promise.resolve(app);
