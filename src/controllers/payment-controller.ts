@@ -7,13 +7,13 @@ import { NextFunction, Response } from "express";
 import { ApplicationError } from '@/protocols';
 
 
-export async function payTicket(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export async function payTicket(req: AuthenticatedRequest, res: Response) {
     const userId = req.userId
     const paymentInfo = req.body as PaymentInfo
     
     try {
         const payment = await paymentService.payTicket(userId, paymentInfo)
-        
+        console.log(payment)
         
         return res.send(payment)
     } catch (error ) {

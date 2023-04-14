@@ -21,7 +21,7 @@ app
   .use('/event', eventsRouter)
   .use('/enrollments', enrollmentsRouter)
   .use('/tickets', ticketRoutes)
-  .use('/payment', paymentRoutes)
+  .use('/payments', paymentRoutes)
   .use(handleApplicationErrors);
 
 
