@@ -27,10 +27,10 @@ export async function createUserTicket(enrollment: Enrollment, ticketTypeId: num
     })
 
 }
-async function getTicketByEnrollmentId(enrollmentId: Enrollment) {
+async function getTicketByEnrollmentId(enrollment: Enrollment) {
     return prisma.ticket.findFirst({
         where: {
-            enrollmentId: enrollmentId.id
+            enrollmentId: enrollment.id
         },
         select: {
             id: true,
@@ -46,10 +46,30 @@ async function getTicketByEnrollmentId(enrollmentId: Enrollment) {
 }
 
 
+
+async function getTicketId(ticketId: number) {
+    return prisma.ticket.findFirst({
+        where: {
+            id: ticketId
+        }
+    })
+}
+
+async function getTicketTypeById(ticketId: number) {
+    return prisma.ticketType.findFirst({
+        where: {
+            id:ticketId
+        }
+    })
+}
+
+
 const ticketsRepository = {
     getAllTicketTypes,
     createUserTicket,
     getTicketByEnrollmentId,
+    getTicketId,
+    getTicketTypeById
     
 }
 

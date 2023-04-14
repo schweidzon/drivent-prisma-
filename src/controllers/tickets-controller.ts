@@ -1,5 +1,4 @@
 import { AuthenticatedRequest } from "@/middlewares";
-import enrollmentsService from "@/services/enrollments-service";
 import ticketsService from "@/services/tickets-service";
 import { TicketType } from "@prisma/client";
 import { Request, Response } from "express";

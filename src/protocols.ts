@@ -1,3 +1,5 @@
+import { Payment } from "@prisma/client";
+
 export type ApplicationError = {
   name: string;
   message: string;
@@ -34,6 +36,20 @@ export type Ticket = {
   price: number,
   isRemote: boolean,
   includesHotel: boolean,
-  createAt : Date,
+  createAt: Date,
   updatedAt: Date
 }
+
+export type PaymentInfo =
+  {
+    ticketId: number,
+    cardData: {
+      issuer: string,
+      number: number,
+      name: string,
+      expirationDate: Date,
+      cvv: number
+    }
+  }
+
+  export type PaymentInput = Omit<Payment, "id">
