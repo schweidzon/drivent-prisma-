@@ -40,7 +40,7 @@ export async function createUserTicket(req: AuthenticatedRequest, res: Response)
 
 
     } catch (error) {
-        console.log(error)
+      
         if(error.name === 'RequestError') {
             return res.status(400).send(error)
         }

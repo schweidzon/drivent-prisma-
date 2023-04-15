@@ -13,7 +13,7 @@ export async function payTicket(req: AuthenticatedRequest, res: Response) {
 
     try {
         const payment = await paymentService.payTicket(userId, paymentInfo)
-        console.log(payment)
+
 
         return res.send(payment)
     } catch (error) {

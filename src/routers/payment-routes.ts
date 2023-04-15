@@ -6,7 +6,7 @@ import { Router } from 'express'
 
 const paymentRoutes = Router()
 
-paymentRoutes.post("/process", validateBody(paymentSchema),  authenticateToken ,payTicket)
+paymentRoutes.post("/process", authenticateToken,validateBody(paymentSchema) ,payTicket)
 paymentRoutes.get("/" , authenticateToken ,getPaymentInfo)
 
 

@@ -9,8 +9,7 @@ export async function getAllTicketTypes(){
 }
 
 export async function createUserTicket(enrollment: Enrollment, ticketTypeId: number) {
-    console.log(enrollment)
-    console.log(ticketTypeId)
+    
     return prisma.ticket.create({
         data: {
             status: 'RESERVED',

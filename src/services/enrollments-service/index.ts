@@ -61,11 +61,11 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
     throw invalidDataError(['invalid CEP']);
   }
   
-  console.log(enrollment)
+  
   
   const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'));
 
-  console.log(newEnrollment)
+ 
 
   await addressRepository.upsert(newEnrollment.id, address, address);
 }
