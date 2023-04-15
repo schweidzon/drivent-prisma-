@@ -1,4 +1,4 @@
-import { notFoundError, unauthorizedError } from "@/errors"
+import { notFoundError, requestError, unauthorizedError } from "@/errors"
 import { PaymentInfo, PaymentInput } from "@/protocols"
 import enrollmentRepository from "@/repositories/enrollment-repository"
 import paymentRepository from "@/repositories/payment-repository"
@@ -41,8 +41,22 @@ async function payTicket(userId: number, paymentInfo: PaymentInfo) {
     return pay
 }
 
+async function getPaymentInfo(id: number, userId: number) {
+    if(!id) throw requestError(400, "You must send a ticketId")
+    const checkTicket = await ticketsRepository.getTicketId(id)
+
+   
+    if (!checkTicket) throw notFoundError()
+
+    const payment = await paymentRepository.getPaymentInfoById(id)
+    console.log(payment)
+    if (!payment) throw notFoundError()
+    return payment
+}
+
 const paymentService = {
-    payTicket
+    payTicket,
+    getPaymentInfo
 }
 
 export default paymentService

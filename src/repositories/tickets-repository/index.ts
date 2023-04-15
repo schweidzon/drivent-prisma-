@@ -48,6 +48,7 @@ async function getTicketByEnrollmentId(enrollment: Enrollment) {
 
 
 async function getTicketId(ticketId: number) {
+    
     return prisma.ticket.findFirst({
         where: {
             id: ticketId
@@ -64,7 +65,7 @@ async function getTicketTypeById(ticketId: number) {
 }
 
 async function payTicket(id: number) {
-    console.log(id)
+    
     
     return prisma.ticket.update({
         where: {

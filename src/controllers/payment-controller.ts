@@ -18,7 +18,7 @@ export async function payTicket(req: AuthenticatedRequest, res: Response) {
         return res.send(payment)
     } catch (error ) {
         const err = error as ApplicationError
-        console.log(err)
+        
       
         if(err.name === 'NotFoundError') {
             return res.status(404).send(err)
@@ -30,3 +30,19 @@ export async function payTicket(req: AuthenticatedRequest, res: Response) {
     
 }
 
+export async function getPaymentInfo(req: AuthenticatedRequest, res: Response) {
+   const ticketId = Number(req.query.ticketId)
+   const userId = req.userId  
+   try {
+    const paymentInfo = await paymentService.getPaymentInfo(ticketId, userId)
+    return res.send(paymentInfo)
+   } catch (error) {
+    const err = error as ApplicationError
+    if(err.name === 'NotFoundError') {
+        return res.status(404).send(err)
+    } 
+    if(err.name === 'RequestError') {
+        return res.status(400).send(err)
+    }
+   }
+}
