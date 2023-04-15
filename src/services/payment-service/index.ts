@@ -42,14 +42,20 @@ async function payTicket(userId: number, paymentInfo: PaymentInfo) {
 }
 
 async function getPaymentInfo(id: number, userId: number) {
+
     if(!id) throw requestError(400, "You must send a ticketId")
+
     const checkTicket = await ticketsRepository.getTicketId(id)
 
-   
     if (!checkTicket) throw notFoundError()
+    
+    const checkIfTicketBelongs = await enrollmentRepository.getById(checkTicket.enrollmentId)
+
+    if (userId !== checkIfTicketBelongs.userId) throw unauthorizedError()
+   
 
     const payment = await paymentRepository.getPaymentInfoById(id)
-    console.log(payment)
+    
     if (!payment) throw notFoundError()
     return payment
 }

@@ -44,5 +44,8 @@ export async function getPaymentInfo(req: AuthenticatedRequest, res: Response) {
     if(err.name === 'RequestError') {
         return res.status(400).send(err)
     }
+    if(err.name === 'UnauthorizedError') {
+        return res.send(401).send(err)
+    }
    }
 }

@@ -20,11 +20,16 @@ export async function authenticateToken(req: AuthenticatedRequest, res: Response
         token,
       },
     });
-    if (!session) return generateUnauthorizedResponse(res);
 
     console.log(session)
+    console.log(userId)
+    if (!session) return generateUnauthorizedResponse(res);
+
+   
 
     req.userId = userId;
+
+    
 
     return next();
   } catch (err) {
