@@ -9,29 +9,25 @@ async function payTicket(userId: number, paymentInfo: PaymentInfo) {
 
     const ticket = await ticketsRepository.getTicketId(paymentInfo.ticketId)
 
-    if(!ticket) throw notFoundError()
-   
+    if (!ticket) throw notFoundError()
+
     const checkIfTicketBelongs = await enrollmentRepository.getById(ticket.enrollmentId)
 
-    if(userId !== checkIfTicketBelongs.userId) throw unauthorizedError()
- 
-    
+    if (userId !== checkIfTicketBelongs.userId) throw unauthorizedError()
+
+
     const ticketType = await ticketsRepository.getTicketTypeById(ticket.ticketTypeId)
 
-    let value
+    let value = ticketType.price
 
-    if(ticketType.name === "online") {
-        value = 100
-    } else {
-        value = 250
-        if(ticketType.includesHotel === true) {
-            value+=350
-        }
-    }
+    // if (ticketType.includesHotel === true) {
+    //     value += 350
+    // }
+
 
     const cardLastDigits = (paymentInfo.cardData.number).toString()
-   
-    const payment : PaymentInput= {
+
+    const payment: PaymentInput = {
         ticketId: ticket.id,
         value,
         cardIssuer: paymentInfo.cardData.issuer,
@@ -40,11 +36,12 @@ async function payTicket(userId: number, paymentInfo: PaymentInfo) {
         updatedAt: new Date(),
     }
     const pay = await paymentRepository.payTicket(payment)
-   
+    await ticketsRepository.payTicket(ticket.id)
+
     return pay
 }
 
-const paymentService= {
+const paymentService = {
     payTicket
 }
 
